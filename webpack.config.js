@@ -37,4 +37,8 @@ module.exports = {
       filename: 'index.html',
     }),
   ],
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 100,
+  },
 };
