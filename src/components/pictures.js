@@ -5,6 +5,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: true,
   },
   {
     image:
@@ -12,6 +13,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: true,
   },
   {
     image:
@@ -19,6 +21,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
   {
     image:
@@ -26,6 +29,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: false,
   },
   {
     image:
@@ -33,6 +37,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
   {
     image:
@@ -40,6 +45,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
   {
     image:
@@ -47,6 +53,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: true,
   },
   {
     image:
@@ -54,6 +61,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
   {
     image:
@@ -61,6 +69,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
   {
     image:
@@ -68,6 +77,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: false,
   },
   {
     image:
@@ -75,6 +85,7 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: false,
+    videoIcon: true,
   },
   {
     image:
@@ -82,5 +93,6 @@ export const pictures = [
     likes: 52,
     comments: 2,
     picIcon: true,
+    videoIcon: false,
   },
 ];
