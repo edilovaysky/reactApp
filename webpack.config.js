@@ -6,7 +6,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle[chunkhash].js',
+    filename: 'bundle.[chunkhash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -33,11 +33,11 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractLoader({
-      filename: 'style[contenthash].css',
+      filename: 'style.[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),
       filename: 'index.html',
     }),
   ],
-};
+}
