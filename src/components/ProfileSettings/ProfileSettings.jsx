@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 export class ProfileSettings extends Component {
   render() {
-    const { name } = this.props;
+    const name = this.props;
     return (
       <div className="profile-user-settings">
-        <h1 className="profile-user-name">{name}</h1>
+        <h1 className="profile-user-name">{name.name}</h1>
         <button className="btn profile-edit-btn">Edit Profile</button>
         <button
           className="btn profile-settings-btn"

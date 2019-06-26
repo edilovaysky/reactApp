@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 export class ProfileBio extends Component {
   render() {
-    const { realname, desc } = this.props;
+    const realname = this.props[0].realname;
+    const desc = this.props.user.bio;
     return (
       <div className="profile-bio">
         <p>
