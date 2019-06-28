@@ -1,14 +1,25 @@
 import 'assets/global.scss';
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDom from 'react-dom';
 import { Auth } from 'components/Auth';
 import { GalleryContainer } from 'containers/GalleryContainer';
 import { Profile } from 'components/Profile';
-import { timingSafeEqual } from 'crypto';
+import { Modal } from 'components/Modal';
 
 class App extends Component {
-  state = { token: localStorage.getItem('token'), id: '', image: '', name: '' };
+  state = {
+    token: localStorage.getItem('token'),
+    id: '',
+    image: '',
+    name: '',
+    isModalVisible: false,
+  };
+
+  handleToggleClick = () => {
+    this.setState(prevState => ({ visible: !prevState.visible }));
+  };
+
   handleSuccess = token => {
     this.setState({ token }, () => {
       localStorage.setItem('token', token);
@@ -21,15 +32,21 @@ class App extends Component {
 
   handleSignOut = event => {
     this.setState({ token: '' }, () => {
-      localStorage.setItem('token', '');
+      localStorage.setItem('token', null);
     });
     event.preventDefault();
   };
 
+  handleModalClose = () => {
+    this.setState({
+      isModalVisible: false,
+    });
+  };
+
   render() {
-    const { token, id, image, name } = this.state;
+    const { token, id, image, name, isModalVisible } = this.state;
     return (
-      <div>
+      <Fragment>
         {!token && (
           <Auth onSuccess={this.handleSuccess} handleUser={this.handleUser} />
         )}
@@ -38,7 +55,17 @@ class App extends Component {
           {token && <Profile image={image} name={name} id={id} />}
         </header>
         <main>{token && <GalleryContainer token={token} />}</main>
-      </div>
+        {isModalVisible && (
+          <Modal onClose={this.handleModalClose} title="Hi! I'm modal">
+            <div>
+              <p>
+                A circular color picker component also named color-wheel
+                performed with react and pure svg. Mobile compatible.
+              </p>
+            </div>
+          </Modal>
+        )}
+      </Fragment>
     );
   }
 }
