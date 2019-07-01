@@ -9,21 +9,14 @@ import { ProfileBio } from '../ProfileBio';
 
 export class Profile extends Component {
   render() {
+    const { image, name, id } = this.props;
     return (
       <div className="container">
         <div className="profile">
-          {profile.map((data, idx) => (
-            <ProfileImg key={idx} {...data} />
-          ))}
-          {profile.map((data, idx) => (
-            <ProfileSettings key={idx} {...data} />
-          ))}
-          {profile.map((data, idx) => (
-            <ProfileStats key={idx} {...data} />
-          ))}
-          {profile.map((data, idx) => (
-            <ProfileBio key={idx} {...data} />
-          ))}
+          <ProfileImg image={image} id={id} />
+          <ProfileSettings name={name} id={id} />
+          {/* <ProfileStats {...profile} />
+          <ProfileBio {...profile} /> */}
         </div>
       </div>
     );

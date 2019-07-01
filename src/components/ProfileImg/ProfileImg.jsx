@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 export class ProfileImg extends Component {
   render() {
-    const { image } = this.props;
+    const image = this.props;
     return (
       <div className="profile-image">
-        <img src={image} alt="avatar" />
+        <img src={image.image} alt="avatar" />
       </div>
     );
   }

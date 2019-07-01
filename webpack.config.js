@@ -6,10 +6,15 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle[chunkhash].js',
+    filename: 'bundle.[chunkhash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      assets: path.resolve(__dirname, 'src', 'assets'),
+      components: path.resolve(__dirname, 'src', 'components'),
+      containers: path.resolve(__dirname, 'src', 'containers'),
+    },
   },
   module: {
     rules: [
@@ -33,7 +38,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractLoader({
-      filename: 'style[contenthash].css',
+      filename: 'style.[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html'),

@@ -4,8 +4,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class ProfileStats extends Component {
+  state = { profile };
   render() {
-    const { posts, followers, following } = this.props;
+    const { posts, followers, following } = this.state;
     return (
       <div className="profile-stats">
         <ul>
