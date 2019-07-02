@@ -1,6 +1,7 @@
 import './GalleryItem.scss';
 
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { Likes } from '../Likes';
@@ -12,53 +13,23 @@ import { Modal } from '../Modal/Modal';
 export class GalleryItem extends Component {
   state = { imgId: '', isModalVisible: true };
 
-  handleImgClick = event => {
-    this.setState({
-      imgId: this.props.id,
-    });
-    event.preventDefault();
-    console.log(this.state.imgId);
-  };
-
-  handleModalClose = () => {
-    console.log('Close!');
-    this.setState({ isModalVisible: false });
-    console.log(this.state);
-  };
-
   render() {
-    const { image, likes, comments } = this.props;
-    //console.log(this.props);
-    const { imgId, isModalVisible } = this.state;
-    //console.log(imgId);
+    const { image, likes, comments, id } = this.props;
+
     return (
-      <div className="gallery-item" onClick={this.handleImgClick} tabIndex="0">
-        {imgId == '' || isModalVisible == false ? (
-          <Fragment>
-            <img src={image} className="gallery-image" alt="user picture" />
-            <div className="gallery-item-info">
-              <ul>
-                <Likes likes={likes} />
-                <Comments comments={comments} />
-                {image.length > 1 && <PicIcon />}
-                {/*   {video && <VideoIcon />} */}
-              </ul>
-            </div>
-          </Fragment>
-        ) : (
-          <Modal onClose={this.handleModalClose}>
-            <img src={image} className="gallery-image" alt="user picture" />
-            <div className="gallery-item-info">
-              <ul>
-                <Likes likes={likes} />
-                <Comments comments={comments} />
-                {image.length > 1 && <PicIcon />}
-                {/*   {video && <VideoIcon />} */}
-              </ul>
-            </div>
-          </Modal>
-        )}
-      </div>
+      <Link to={`/posts/${id}`}>
+        <div className="gallery-item" tabIndex="0">
+          <img src={image} className="gallery-image" alt="user picture" />
+          <div className="gallery-item-info">
+            <ul>
+              <Likes likes={likes} />
+              <Comments comments={comments} />
+              {image.length > 1 && <PicIcon />}
+              {/*   {video && <VideoIcon />} */}
+            </ul>
+          </div>
+        </div>
+      </Link>
     );
   }
 }

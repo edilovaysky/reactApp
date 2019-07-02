@@ -1,12 +1,20 @@
 import React, { Component, Fragment } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { Gallery } from 'components/Gallery';
 import { Loading } from 'components/Loading';
+import { PostContainer } from 'containers/PostContainer';
 
 export class GalleryContainer extends Component {
   state = { pictures: [], loading: false, page: 1, total: null };
 
   componentDidMount() {
+    if (
+      !localStorage.getItem('token') ||
+      localStorage.getItem('token') === ''
+    ) {
+      return this.props.history.replace('/auth');
+    }
     this.loadPages();
   }
 
@@ -17,7 +25,7 @@ export class GalleryContainer extends Component {
     fetch(`http://localhost:8888/api/photos?page=${page}`, {
       headers: {
         'Content-type': 'application/json',
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then(response => response.json())
@@ -50,18 +58,22 @@ export class GalleryContainer extends Component {
   handleScroll = () => {
     if (this.shouldWeLoad()) {
       this.loadPages();
+    } else {
+      console.log(this.props.history);
     }
   };
 
   render() {
     const { pictures, loading } = this.state;
+
     return (
-      <Fragment>
+      <main>
         {pictures.length > 0 && (
           <Gallery onScroll={this.handleScroll} pictures={pictures} />
         )}
+        <Route path="/posts/:id" component={PostContainer} />
         {loading && <Loading />}
-      </Fragment>
+      </main>
     );
   }
 }

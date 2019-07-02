@@ -6,7 +6,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
-mongoose.connect(`mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, { useNewUrlParser: true });
+mongoose.connect(
+  `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${
+    process.env.DB_NAME
+  }`,
+  { useNewUrlParser: true }
+);
 
 const app = express();
 
@@ -23,7 +28,7 @@ const verifyToken = (req, res, next) => {
   } else {
     res.status(401).json({ message: 'No token present' });
   }
-}
+};
 
 const User = require('./models/user');
 const Picture = require('./models/picture');
@@ -36,12 +41,15 @@ app.post('/auth', async (req, res) => {
 
   let user = await User.findOne({ email: username, password }).lean();
   if (user) {
-    const token = jwt.sign({
-      _id: user._id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    }, 'secret');
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+      'secret'
+    );
     delete user.password;
     res.json({ token, user });
   } else {
@@ -54,11 +62,9 @@ app.all('/api*', verifyToken);
 app.get('/api/photos', async (req, res) => {
   const { page = 1, limit = 15 } = req.query;
   const photos = await Picture.find()
-    .populate([
-      'comments.user',
-      'likes.user',
-      'owner'
-    ]).skip(limit * (page - 1)).limit(limit);
+    .populate(['comments.user', 'likes.user', 'owner'])
+    .skip(limit * (page - 1))
+    .limit(limit);
   const total = await Picture.countDocuments();
   res.json({
     page,
@@ -77,22 +83,14 @@ app.get('/api/users/:id', async (req, res) => {
   res.json(user);
 });
 
-app.get('/api/photos/:owner', async (req, res) => {
-  const { page = 1, limit = 15 } = req.query;
-  const photos = await Picture.find({ owner: req.params.owner })
-    .populate([
-      'comments.user',
-      'likes.user',
-      'owner'
-    ])
-    .skip(limit * (page - 1)).limit(limit);
-  const total = await Picture.countDocuments({ owner: req.params.owner })
-  res.json({
-    page,
-    total,
-    photos,
-  });
-})
+app.get('/api/photos/:id', async (req, res) => {
+  const photo = await Picture.findById(req.params.id).populate([
+    'comments.user',
+    'likes.user',
+    'owner',
+  ]);
+  res.json(photo);
+});
 
 app.listen(8888, () => {
   console.log('Server has been started!');
