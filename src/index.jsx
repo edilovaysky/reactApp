@@ -2,10 +2,11 @@ import 'assets/global.scss';
 
 import React, { Component, Fragment } from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
+
 import { Auth } from 'components/Auth';
 import { GalleryContainer } from 'containers/GalleryContainer';
 import { Profile } from 'components/Profile';
-import { Modal } from 'components/Modal';
 
 class App extends Component {
   state = {
@@ -13,11 +14,6 @@ class App extends Component {
     id: '',
     image: '',
     name: '',
-    isModalVisible: false,
-  };
-
-  handleToggleClick = () => {
-    this.setState(prevState => ({ visible: !prevState.visible }));
   };
 
   handleSuccess = token => {
@@ -32,42 +28,45 @@ class App extends Component {
 
   handleSignOut = event => {
     this.setState({ token: '' }, () => {
-      localStorage.setItem('token', null);
+      localStorage.setItem('token', '');
     });
     event.preventDefault();
-  };
-
-  handleModalClose = () => {
-    this.setState({
-      isModalVisible: false,
-    });
   };
 
   render() {
     const { token, id, image, name, isModalVisible } = this.state;
     return (
       <Fragment>
-        {!token && (
-          <Auth onSuccess={this.handleSuccess} handleUser={this.handleUser} />
-        )}
         {token && <button onClick={this.handleSignOut}>Sign Out</button>}
         <header>
           {token && <Profile image={image} name={name} id={id} />}
         </header>
-        <main>{token && <GalleryContainer token={token} />}</main>
-        {isModalVisible && (
-          <Modal onClose={this.handleModalClose} title="Hi! I'm modal">
-            <div>
-              <p>
-                A circular color picker component also named color-wheel
-                performed with react and pure svg. Mobile compatible.
-              </p>
-            </div>
-          </Modal>
+        <Link to="/">Home</Link>
+        <Link to="/auth">Auth</Link>
+
+        <Route path="/posts" component={GalleryContainer} />
+        {!token || token == '' ? (
+          <Route
+            path="/auth"
+            render={() => (
+              <Auth
+                onSuccess={this.handleSuccess}
+                handleUser={this.handleUser}
+              />
+            )}
+            exact
+          />
+        ) : (
+          <Redirect to="/posts" />
         )}
       </Fragment>
     );
   }
 }
 
-ReactDom.render(<App />, document.getElementById('root'));
+ReactDom.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
